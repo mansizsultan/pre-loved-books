@@ -22,9 +22,9 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
 
 - Pertama yang saya lakukan adalah mengaktifkan _virtual environment_ karena seperti yang saya telah pelajari di dalam kelas dan tutorial, _virtual environment_ berfungsi untuk mengisolasi _dependencies_ antar proyek yang berbeda sehingga tidak terjadi hal-hal yang tidak diinginkan.
 
-- Membuat project baru Django dengan perintah 'django-admin startproject pre_loved_books .'
+- Membuat project baru Django dengan perintah `django-admin startproject pre_loved_books .`
 
-- Membuat aplikasi bernama 'main' dengan perintah 'python manage.py startapp main'. Lalu, daftarkan aplikasi 'main' tersebut ke dalam file settings.py di dalam direktori pre_loved_books.
+- Membuat aplikasi bernama `main` dengan perintah `python manage.py startapp main`. Lalu, daftarkan aplikasi `main` tersebut ke dalam file settings.py di dalam direktori pre_loved_books.
 
   ```python
   INSTALLED_APPS = [
@@ -38,7 +38,7 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
   ]
   ```
 
-- Membuat file bernama 'urls.py' di dalam direktori main yang telah kita buat sebelumnya. Lalu, isi file tersebut dengan
+- Membuat file bernama `urls.py` di dalam direktori main yang telah kita buat sebelumnya. Lalu, isi file tersebut dengan
 
     ```python
 	from django.urls import path
@@ -67,7 +67,7 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
             return self.price > 50000
     ```
 
-* Setelah itu, Di dalam file views.py pada aplikasi main saya menambahkan code
+* Setelah itu, Di dalam file `views.py` pada aplikasi main saya menambahkan code
     ```python
 	from django.shortcuts import render
 
@@ -83,7 +83,7 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
     ```
   yang nantinya akan menampilkan value sesuai keys di file ini pada file HTML.
 
-* Kemudian, saya menambahkan _routing_ di 'urls.py' dalam aplikasi 'main' untuk mengatur _path_ yang menghubungkan fungsi yang sudah ada di 'views.py'.
+* Kemudian, saya menambahkan _routing_ di `urls.py` dalam aplikasi `main` untuk mengatur _path_ yang menghubungkan fungsi yang sudah ada di `views.py`.
     ```python
 	from django.contrib import admin
     from django.urls import path,  include
@@ -97,3 +97,14 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
 * Terakhir, saya menghubungkan repositori saya dengan link yang mengarahkan ke pws lalu melakukan _deployment_ proyek yang telah saya buat agar bisa diakses di internet.
 
 ### Buatlah bagan yang berisi _request client_ ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara `urls.py`, `views.py`, `models.py`, dan berkas `html`.
+![Diagram](diagrams.png)
+Diagram alur dimulai dari adanya client yang mengirim request di internet atau browsernya. Request itu diarahkan oleh `urls.py` dengan cara memetakan URL yang diminta ke `views.py`. `views.py` lalu memproses request tersebut yang juga dilanjutkan ke `models.py` jika ada data yang perlu disimpan atau diambil dari `database`. Setelah semua sudah terpenuhi, request dari client tadi akan ditampilkan lewat `HTML` yang telah dibuat.
+
+### Jelaskan fungsi `git` dalam pengembangan perangkat lunak!
+Dari apa yang telah saya pelajari dan pahami, git sangat berguna khususnya dalam pengembangan perangkat lunak. Git berfungsi sebagai sistem kontrol yang sangat sistematis dan terkoordinasi dalam pengembangan perangkat lunak. Hal itu memudahkan para developer untuk melihat perubahan atau penambahan apa saja yang terjadi, berkolaborasi, menyimpan riwayat kode, dan penggabungan kontribusi dari banyak developer. 
+
+### Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+Beberapa alasan menurut pengalaman saya sejuah ini adalah karena Django menyediakan banyak fitur bawaan yang sangat memudahkan pemula bisa lebih fokus memahami bagaimana cara kerja pengembangan perangkat lunak dibandingkan mempelajari code yang rumit. Selain itu, menurut saya, Django memiliki struktur proyek yang rapih dan sistematis sehingga dapat belajar bagaiman cara mengorganisasi code dengan baik.
+
+### engapa model pada Django disebut sebagai ORM?
+ORM adalah alat yang menerjemahkan kode Python menjadi SQL. Di Django, kita hanya perlu mendefinisikan model dan atributnya menggunakan Python, lalu model tersebut akan diubah menjadi SQL melalui proses migrasi dan disimpan di folder migrations.
