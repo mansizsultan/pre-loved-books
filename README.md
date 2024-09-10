@@ -50,3 +50,50 @@ Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menj
         path('', show_main, name='show_main'),
     ]
     ```
+
+* Saya membuat model pada aplikasi main sesuai ketentuan dan menambahkan satu buah atribut dengan code
+
+    ```python
+	from django.db import models
+
+    class Product(models.Model):
+        name = models.CharField(max_length=255)
+        author = models.CharField(max_length=255, default='')
+        price = models.DecimalField(decimal_places=2, max_digits=15)
+        description = models.TextField()
+
+        @property
+        def is_book_expensive(self):
+            return self.price > 50000
+    ```
+
+* Setelah itu, Di dalam file views.py pada aplikasi main saya menambahkan code
+    ```python
+	from django.shortcuts import render
+
+    def show_main(request):
+        context = {
+            'name' : 'Norwegian Wood',
+            'author': 'Haruki Murakami',
+            'price': 100000,
+            'description': 'Edisi ini menggunakan bahasa Inggris karena merupakan barang impor. Hanya dibaca oleh diri sendiri dan selalu tersimpan rapih. Tidak ada kerusakan apapun kecuali kertasnya yang mulai menguning.'
+        }
+
+        return render(request, "main.html", context)
+    ```
+  yang nantinya akan menampilkan value sesuai keys di file ini pada file HTML.
+
+* Kemudian, saya menambahkan _routing_ di 'urls.py' dalam aplikasi 'main' untuk mengatur _path_ yang menghubungkan fungsi yang sudah ada di 'views.py'.
+    ```python
+	from django.contrib import admin
+    from django.urls import path,  include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('main.urls')),
+    ]
+    ```
+
+* Terakhir, saya menghubungkan repositori saya dengan link yang mengarahkan ke pws lalu melakukan _deployment_ proyek yang telah saya buat agar bisa diakses di internet.
+
+### Buatlah bagan yang berisi _request client_ ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara `urls.py`, `views.py`, `models.py`, dan berkas `html`.
