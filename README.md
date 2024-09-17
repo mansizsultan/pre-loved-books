@@ -109,3 +109,26 @@ Beberapa alasan menurut pengalaman saya sejuah ini adalah karena Django menyedia
 
 ### Mengapa model pada Django disebut sebagai ORM?
 ORM adalah alat yang menerjemahkan kode Python menjadi `SQL`. Di Django, kita hanya perlu mendefinisikan model dan atributnya menggunakan Python, lalu model tersebut akan diubah menjadi `SQL` melalui proses migrasi dan disimpan di folder migrations.
+
+
+# Assignment 3: Implementation of Forms and Data Delivery in Django
+## Checklist Tugas
+
+- [x] Membuat input `form` untuk menambahkan objek model pada app sebelumnya.
+- [x] Tambahkan 4 fungsi `views` baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML _by_ ID, dan JSON _by_ ID.
+- [x] Membuat routing URL untuk masing-masing `views` yang telah ditambahkan pada poin 2.
+- [x] Menjawab beberapa pertanyaan berikut pada `README.md` pada _root_ folder.
+
+### Jelaskan mengapa kita memerlukan _data delivery_ dalam pengimplementasian sebuah platform?
+
+### Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+
+### Jelaskan fungsi dari method `is_valid()` pada form Django dan mengapa kita membutuhkan method tersebut?
+
+### Mengapa kita membutuhkan `csrf_token` saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan `csrf_token` pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_ (bukan hanya sekadar mengikuti tutorial).
+
+- [x] Mengakses keempat URL di poin 2 menggunakan Postman, membuat _screenshot_ dari hasil akses URL pada Postman, dan menambahkannya ke dalam `README.md`.
+
+- [x] Melakukan `add`-`commit`-`push` ke GitHub.
