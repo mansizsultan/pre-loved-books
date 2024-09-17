@@ -1,6 +1,6 @@
 # Platform Based Programming Individual Assignment
 
-Pada tugas ini, saya membuat suatu app e-commerce sederhana dengan ide menjual buku-buku bekas bernama "Second Stories <3". Saya menggunakan konsep bernama MVT pada Django untuk membangun projek ini.
+Pada tugas ini, saya membuat suatu app e-commerce sederhana dengan ide menjual buku-buku bekas bernama "Second Chapters <3". Saya menggunakan konsep bernama MVT pada Django untuk membangun projek ini.
 
 - LINK: [http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/](http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/)
 

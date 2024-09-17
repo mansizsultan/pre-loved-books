@@ -26,11 +26,11 @@
       }
 
     </style>
-    <title>Second Stories<3</title>
+    <title>Second Chapters<3</title>
   </head>
   <body>
     <div id="center">
-      <h1>Welcome to Second Stories <3</h1>
+      <h1>Welcome to Second Chapters <3</h1>
       <p>{{ author }}</p>
       <p><b>{{ description }} <3</b></p>
     </div>
@@ -38,7 +38,7 @@
     <div id="center">
       {% if not products %}
 
-      <p>Belum product yang lain pada pre-loved-books.</p>
+      <p>Yahh.. Belum ada buku yang lagi dijual nih</p>
       {% else %}
       <table>
         <tr>
@@ -48,7 +48,7 @@
           <th>Description</th>
         </tr>
 
-        {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini
+        {% comment %} Berikut cara memperlihatkan data buku di bawah baris ini
         {%endcomment %} {% for product in products %}
         <tr>
           <td>{{product.name}}</td>
@@ -63,12 +63,12 @@
       <br />
 
       <a href="{% url 'main:create_product' %}">
-        <button>Add New Product</button>
+        <button>Tambahkan buku</button>
       </a>
 
       <form action="{% url 'main:clear_table' %}" method="post">
         {% csrf_token %}
-        <button type="submit">Clear Table</button>
+        <button type="submit">Kosongkan tabel</button>
       </form>
     </div>
   </body>
