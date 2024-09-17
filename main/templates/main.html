@@ -1,3 +1,6 @@
+{% extends 'base.html' %} 
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,18 +8,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #center {
+        margin: 0 auto;
         text-align: center;
+        width: 75%;
       }
+
+      table {
+        margin: 0 auto; 
+        border-collapse: collapse;
+        width: 75%;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
     </style>
-    <title>Pre Loved Books<3</title>
+    <title>Second Stories<3</title>
   </head>
   <body>
     <div id="center">
-      <h1>Welcome to Pre Loved Books <3</h1>
-      <h2><b>{{ name }}</b></h2>
-      <p>By {{ author }}</p>
-      <p>Rp{{ price }}</p>
-      <p>{{ description }}</p>
+      <h1>Welcome to Second Stories <3</h1>
+      <p>{{ author }}</p>
+      <p><b>{{ description }} <3</b></p>
+    </div>
+
+    <div id="center">
+      {% if not products %}
+
+      <p>Belum product yang lain pada pre-loved-books.</p>
+      {% else %}
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Price</th>
+          <th>Description</th>
+        </tr>
+
+        {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini
+        {%endcomment %} {% for product in products %}
+        <tr>
+          <td>{{product.name}}</td>
+          <td>{{product.author}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.description}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      <br />
+
+      <a href="{% url 'main:create_product' %}">
+        <button>Add New Product</button>
+      </a>
+
+      <form action="{% url 'main:clear_table' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Clear Table</button>
+      </form>
     </div>
   </body>
 </html>
+{% endblock content %}
