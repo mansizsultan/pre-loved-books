@@ -4,7 +4,7 @@
 |-----------------|------------------------------------------------|--------|
 | Sultan Ibnu Mansiz | 2306275840 | D |
 
-Pada tugas ini, saya membuat suatu app e-commerce sederhana dengan ide menjual buku-buku bekas bernama "Second Chapters <3". Saya menggunakan konsep bernama MVT pada Django untuk membangun projek ini.
+Pada tugas ini, saya membuat suatu projek e-commerce sederhana bernama "Second Chapters <3" dengan ide menjual buku-buku bekas. Saya menggunakan konsep _Model-View-Template_ (MVT) pada Django untuk membangun projek ini.
 
 - LINK: [Second Chapters <3](http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/)
 
