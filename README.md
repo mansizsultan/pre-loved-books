@@ -1,9 +1,10 @@
-# Assignment 2: Model-View-Template (MVT) implementation in Django
+# Platform Based Programming Individual Assignment
 
-Pada tugas kali ini, saya membuat suatu app e-commerce sederhana dengan ide menjual buku-buku bekas menggunakan Django.
+Pada tugas ini, saya membuat suatu app e-commerce sederhana dengan ide menjual buku-buku bekas bernama "Second Stories <3". Saya menggunakan konsep bernama MVT pada Django untuk membangun projek ini.
 
 - LINK: [http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/](http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/)
 
+# Assignment 2: Model-View-Template (MVT) implementation in Django
 ## Checklist Tugas
 
 - [x] Membuat sebuah proyek Django baru.
