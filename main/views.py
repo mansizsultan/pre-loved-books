@@ -8,8 +8,11 @@ def show_main(request):
     product = Product.objects.all()
 
     context = {
-        'author': 'Kami adalah destinasi utama bagi para pencinta buku yang mencari harta karun literatur dengan harga terjangkau. Di sini, setiap buku memiliki cerita yang kaya dan penuh kenangan. Toko kami berkomitmen untuk memberikan kesempatan kedua bagi buku-buku yang sudah melewati perjalanan hidupnya, agar tetap dapat dinikmati oleh pembaca baru.',
-        'description': 'Selamat berbelanja',
+        'student_name': 'Sultan Ibnu Mansiz',
+        'student_id': 2306275840,
+        'student_class': 'PBP D',  
+        'description': 'Kami adalah destinasi utama bagi para pencinta buku yang mencari harta karun literatur dengan harga terjangkau. Di sini, setiap buku memiliki cerita yang kaya dan penuh kenangan. Toko kami berkomitmen untuk memberikan kesempatan kedua bagi buku-buku yang sudah melewati perjalanan hidupnya, agar tetap dapat dinikmati oleh pembaca baru.',
+        'greet': 'Selamat berbelanja',
         'products': product,
     }
     

@@ -14,7 +14,7 @@
       }
 
       table {
-        margin: 0 auto; 
+        margin: 0 auto;
         border-collapse: collapse;
         width: 75%;
       }
@@ -24,15 +24,14 @@
         padding: 10px;
         border: 1px solid #ddd;
       }
-
     </style>
     <title>Second Chapters<3</title>
   </head>
   <body>
     <div id="center">
       <h1>Welcome to Second Chapters <3</h1>
-      <p>{{ author }}</p>
-      <p><b>{{ description }} <3</b></p>
+      <p>{{ description }}</p>
+      <p><b>{{ greet }} <3</b></p>
     </div>
 
     <div id="center">
@@ -48,8 +47,11 @@
           <th>Description</th>
         </tr>
 
-        {% comment %} Berikut cara memperlihatkan data buku di bawah baris ini
-        {%endcomment %} {% for product in products %}
+        {% comment %} 
+        Berikut cara memperlihatkan data buku di bawah baris ini
+        {%endcomment %} 
+        
+        {% for product in products %}
         <tr>
           <td>{{product.name}}</td>
           <td>{{product.author}}</td>
@@ -58,9 +60,10 @@
         </tr>
         {% endfor %}
       </table>
+
       {% endif %}
 
-      <br />
+      <br/>
 
       <a href="{% url 'main:create_product' %}">
         <button>Tambahkan buku</button>
@@ -70,7 +73,17 @@
         {% csrf_token %}
         <button type="submit">Kosongkan tabel</button>
       </form>
+
+      <br />
+      <br />
+
+      <p>
+        © 2024 {{ student_name }} ({{ student_id }}, {{ student_class }}) — All
+        Rights Reserved.
+      </p>
+
     </div>
+
   </body>
 </html>
 {% endblock content %}
