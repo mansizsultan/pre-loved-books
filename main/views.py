@@ -13,7 +13,7 @@ from main.models import Product
 
 @login_required(login_url='/login')
 def show_main(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(user=request.user)
 
     context = {
         'student_name': 'Sultan Ibnu Mansiz',
@@ -21,6 +21,7 @@ def show_main(request):
         'student_class': 'PBP D',  
         'description': 'Kami adalah destinasi utama bagi para pencinta buku yang mencari harta karun literatur dengan harga terjangkau. Di sini, setiap buku memiliki cerita yang kaya dan penuh kenangan. Toko kami berkomitmen untuk memberikan kesempatan kedua bagi buku-buku yang sudah melewati perjalanan hidupnya, agar tetap dapat dinikmati oleh pembaca baru.',
         'greet': 'Selamat berbelanja',
+        'name': request.user.username,
         'products': product,
         'last_login': request.COOKIES['last_login'],
     }
@@ -31,7 +32,9 @@ def create_product(request):
     form = ProductForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        form.save()
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
         return redirect('main:show_main')
 
     context = {'form': form}

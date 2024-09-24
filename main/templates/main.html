@@ -14,22 +14,37 @@
       }
 
       table {
+        table-layout: fixed;
         margin: 0 auto;
         border-collapse: collapse;
-        width: 75%;
+        width: 100%;
       }
 
       th,
       td {
         padding: 10px;
         border: 1px solid #ddd;
+        word-wrap: break-word; /* Memastikan kata yang panjang terputus */
+        word-break: break-all;
+
       }
+      th:nth-child(6), td:nth-child(6) { /* Kolom Description */
+            width: 30%; /* Misalnya 30% dari lebar tabel */
+        }
+        th:nth-child(1), td:nth-child(1), 
+        th:nth-child(2), td:nth-child(2), 
+        th:nth-child(3), td:nth-child(3), 
+        th:nth-child(4), td:nth-child(4), 
+        th:nth-child(5), td:nth-child(5) {
+            width: 14%; /* Kolom lainnya diatur dengan lebar lebih kecil */
+        }
     </style>
     <title>Second Chapters<3</title>
   </head>
   <body>
     <div id="center">
       <h1>Welcome to Second Chapters <3</h1>
+      <h3>Hai, {{ name }}!</h3>
       <p>{{ description }}</p>
       <p><b>{{ greet }} <3</b></p>
     </div>
@@ -41,21 +56,25 @@
       {% else %}
       <table>
         <tr>
-          <th>Name</th>
+          <th>User</th>
+          <th>Book Title</th>
           <th>Author</th>
           <th>Price</th>
+          <th>Date Added</th>
           <th>Description</th>
         </tr>
 
         {% comment %} 
         Berikut cara memperlihatkan data buku di bawah baris ini
         {%endcomment %} 
-        
+
         {% for product in products %}
         <tr>
+          <td>{{product.user}}</td>
           <td>{{product.name}}</td>
           <td>{{product.author}}</td>
           <td>{{product.price}}</td>
+          <td>{{product.date}}</td>
           <td>{{product.description}}</td>
         </tr>
         {% endfor %}
@@ -63,7 +82,7 @@
 
       {% endif %}
 
-      <br/>
+      <br />
 
       <a href="{% url 'main:create_product' %}">
         <button>Tambahkan buku</button>
@@ -73,24 +92,21 @@
         {% csrf_token %}
         <button type="submit">Kosongkan tabel</button>
       </form>
-    
+
       <a href="{% url 'main:logout' %}">
         <button>Logout</button>
       </a>
-      
+
       <br />
       <br />
       <h5>Sesi terakhir login: {{ last_login }}</h5>
       <br />
-      
 
       <p>
         © 2024 {{ student_name }} ({{ student_id }}, {{ student_class }}) — All
         Rights Reserved.
       </p>
-
     </div>
-
   </body>
 </html>
 {% endblock content %}
