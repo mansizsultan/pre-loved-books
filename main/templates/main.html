@@ -73,9 +73,16 @@
         {% csrf_token %}
         <button type="submit">Kosongkan tabel</button>
       </form>
-
+    
+      <a href="{% url 'main:logout' %}">
+        <button>Logout</button>
+      </a>
+      
       <br />
       <br />
+      <h5>Sesi terakhir login: {{ last_login }}</h5>
+      <br />
+      
 
       <p>
         © 2024 {{ student_name }} ({{ student_id }}, {{ student_class }}) — All
