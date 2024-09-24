@@ -9,6 +9,168 @@ Pada tugas ini, saya membuat suatu projek e-commerce sederhana bernama "Second C
 - LINK: [Second Chapters <3](http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/)
 
 
+# Assignment 4: Implementing Authentication, Sessions, and Cookies in Django
+## Checklist Tugas
+
+- [x] Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+- [x] Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+- [x] Menghubungkan model `Product` dengan `User`.
+- [x] Menampilkan detail informasi pengguna yang sedang _logged in_ seperti _username_ dan menerapkan `cookies` seperti `last login` pada halaman utama aplikasi.
+- [x] Menjawab beberapa pertanyaan berikut pada `README.md` pada _root folder_ (silakan modifikasi `README.md` yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+
+### Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+Dari apa yang saya pahami setelah mengerjakan tugas kali ini adalah `HttpResponseRedirect()` akan mengembalikan objek degan kode 302 dan juga memerlukan _absolute path_. Sementara itu, `redirect()` bisa digunakan lebih fleksibel karena kita dapat memberikan nama view, _relative path_, atau bahkan objek model sebagai argumen. Secara umum, `redirect()` lebih sering digunakan karena fleksibel dan bisa dibilang merupakan shortcut dari `HttpResponseRedirect()`.
+
+### Jelaskan cara kerja penghubungan model `Product` dengan `User`!
+* Membuat model `Product` dan `User` terhubung dengan menggunakan _foreign key_ yang diimplemen di `models.py`.
+* Menambahkan atribut `user` pada model `Product` yang merujuk ke model `User`.
+
+Dengan begitu, data yang terdapat di dalam model `Product`, seperti waktu _logged in_, produk yang dibuat, dan tampilan _username_ hanya akan terkait dengan pengguna tertentu, sehingga pengguna yang sedang _logged in_ hanya bisa melihat dan mengakses produk yang terkait dengannya bukan yang ada di seluruh _database_. 
+
+### Apa perbedaan antara _authentication_ dan _authorization_, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+
+#### Authentication
+_Authentication_ adalah proses verifikasi identitas pengguna untuk memastikan bahwa pengguna adalah siapa yang mereka klaim. Ketika pengguna login, Django memeriksa kredensial pengguna, seperti _username_ dan _password_, dan memverifikasi apakah kredensial tersebut sesuai dengan yang tersimpan di _database_. Setelah berhasil login, Django menggunakan _session_ untuk menyimpan informasi autentikasi pengguna, seperti _user ID_ dan _username_, sehingga pengguna tetap terautentikasi selama sesi berlangsung.
+
+#### Authorization
+_Authorization_ adalah proses menentukan hak akses pengguna setelah mereka terautentikasi. Django menggunakan _permissions_ dan _groups_ untuk mengatur apa yang dapat dilakukan pengguna, seperti menambah, mengedit, atau menghapus objek tertentu, dengan memeriksa hak akses ini saat pengguna login.
+
+
+### Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari _cookies_ dan apakah semua _cookies_ aman digunakan?
+
+#### Django Session Framework
+Django menggunakan _session_ untuk mengingat pengguna yang telah login dengan membuat _session_ unik yang disimpan di _database_, kemudian digunakan untuk mengidentifikasi pengguna di setiap _request_ mereka.
+
+#### Cookies
+_Cookies_ adalah data kecil yang disimpan di browser pengguna, digunakan untuk menyimpan informasi seperti _session key_, preferensi, dan _last login_. Django menyimpan _session key_ di _cookies_ untuk mengidentifikasi pengguna yang telah login. Namun, _cookies_ yang tidak aman, terutama yang menyimpan informasi sensitif seperti _password_ tanpa enkripsi atau keamanan tambahan, rentan terhadap serangan.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_ (bukan hanya sekadar mengikuti tutorial).
+
+#### Membuat fitur register, login, dan logout
+
+* Pertama, pada `views.py` yang ada di subdirektori `main`, saya mengimpor hal-hal yang diperlukan untuk membuat fitur register, login, dan logout.
+```python
+    from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+    from django.contrib.auth import authenticate, login, logout
+    from django.contrib import messages
+```
+
+* Lalu masih pad file yang sama, saya menambahkan fungsi register, login, dan logout.
+```python
+    def register(request):
+        form = UserCreationForm()
+
+        if request.method == "POST":
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your account has been successfully created!')
+                return redirect('main:login')
+        context = {'form':form}
+        return render(request, 'register.html', context)
+
+    def login_user(request):
+        if request.method == 'POST':
+            form = AuthenticationForm(data=request.POST)
+
+            if form.is_valid():
+                    user = form.get_user()
+                    login(request, user)
+                    return redirect('main:show_main')
+
+        else:
+            form = AuthenticationForm(request)
+        context = {'form': form}
+        return render(request, 'login.html', context)
+
+    def logout_user(request):
+        logout(request)
+        return redirect('main:login')
+```
+
+* Setelah itu, saya membuat page HTML bernama `login.html`, `register.html`, dan code untuk menambahkan tombol logout pada `main.html` yang berada pada direktori `main/templates` untuk menampilkan halaman login, halaman registrasi, dan keluar dari tampilan utama.
+
+* Selanjutnya, di dalam `urls.py` yang berada pada subdirektori `main`, saya menambahkan fungsi yang telah saya buat sebelumnya
+```python
+    from main.views import register, login_user, logout_user
+```
+* Masih pada file yang sama, saya menambahkan _path url_ ke dalam `urlpatterns`
+```python
+    urlpatterns = [
+    ...
+    path('register/', register, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    ]
+
+```
+
+#### Menghubungkan model `Product` dengan `User`.
+* Pada `models.py`, saya mengimpor hal yang diperlukan dan menambahkan atribut baru pada `Product`
+```python
+    from django.contrib.auth.models import User
+
+    class Product(models.Model):
+        user = models.ForeignKey(User, on_delete=models.CASCADE)    
+```
+
+* Selanjutnya, pada `views.py`, saya melakukan perubahan pada fungsi `create_product()` dan `show_main()`
+```python
+    def show_main(request):
+        product = Product.objects.filter(user=request.user)
+
+        context = {
+            'name': request.user.username,
+            ...
+        }
+
+    def create_product(request):
+        form = ProductForm(request.POST or None)
+
+        if form.is_valid() and request.method == "POST":
+            product_entry = form.save(commit=False)
+            product_entry.user = request.user
+            product_entry.save()
+            return redirect('main:show_main')
+
+        context = {'form': form}
+        return render(request, "create_product.html", context)
+```
+* Terakhir, saya melakukan `makemigration` dan `migrate` untuk menyimpan semua perubahan yang saya lakukan.
+
+#### Menampilkan detail informasi pengguna yang sedang _logged in_ seperti _username_ dan _last login_
+
+* Petama, impor hal-hal penting pada `views.py`
+```python
+    import datetime
+    from django.http import HttpResponseRedirect
+    from django.urls import reverse
+```
+
+* Menambahkan fungsionalitas _cookie_ pada fungsi `login_user`
+```python
+    if form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        response = HttpResponseRedirect(reverse("main:show_main"))
+        response.set_cookie('last_login', str(datetime.datetime.now()))
+        return response
+```
+
+* Tambahkan `'last_login': request.COOKIES['last_login'],` pada fungsi `show_main`
+
+* Ubah fungsi `logout_user`
+```python
+    def logout_user(request):
+        logout(request)
+        response = HttpResponseRedirect(reverse('main:login'))
+        response.delete_cookie('last_login')
+        return response
+```
+
+* Terakhir, pada file `main.html`, tambahkan informasi _last login_.
+
+
 # Assignment 3: Implementation of Forms and Data Delivery in Django
 ## Checklist Tugas
 
