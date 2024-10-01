@@ -122,6 +122,7 @@ Web atau aplikasi yang belum menerapkan _responsive design_: **SIAKNG**
 ### Jelaskan perbedaan antara _margin_, _border_, dan _padding_, serta cara untuk mengimplementasikan ketiga hal tersebut!
 
 ![Diagram](resources/marginborderpadding.png)
+
 _Courtesy of_ [https://www.avajava.com/tutorials/lessons/how-are-margins-borders-padding-and-content-related.html](https://www.avajava.com/tutorials/lessons/how-are-margins-borders-padding-and-content-related.html)
 
 **Margin** menciptakan ruang di luar elemen, berfungsi untuk memisahkan elemen tersebut dari elemen lain di sekitarnya dan mengatur tata letak halaman.  Dengan margin, Anda bisa mencegah elemen saling berdempetan atau menempel ke tepi container.
