@@ -2,7 +2,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
@@ -13,7 +13,7 @@ from main.models import Product
 
 @login_required(login_url='/login')
 def show_main(request):
-    product = Product.objects.filter(user=request.user)
+    products = Product.objects.filter(user=request.user)
 
     context = {
         'student_name': 'Sultan Ibnu Mansiz',
@@ -22,7 +22,7 @@ def show_main(request):
         'description': 'Kami adalah destinasi utama bagi para pencinta buku yang mencari harta karun literatur dengan harga terjangkau. Di sini, setiap buku memiliki cerita yang kaya dan penuh kenangan. Toko kami berkomitmen untuk memberikan kesempatan kedua bagi buku-buku yang sudah melewati perjalanan hidupnya, agar tetap dapat dinikmati oleh pembaca baru.',
         'greet': 'Selamat berbelanja',
         'name': request.user.username,
-        'products': product,
+        'products': products,
         'last_login': request.COOKIES['last_login'],
     }
     
@@ -40,10 +40,6 @@ def create_product(request):
     context = {'form': form}
     return render(request, "create_product.html", context)
 
-def clear_table(request):
-    Product.objects.all().delete()
-    return redirect('main:show_main')
-
 def register(request):
     form = UserCreationForm()
 
@@ -55,6 +51,29 @@ def register(request):
             return redirect('main:login')
     context = {'form':form}
     return render(request, 'register.html', context)
+
+def delete_product(request, id):
+    # Get product berdasarkan id
+    product = Product.objects.get(pk = id)
+    # Hapus product
+    product.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def edit_product(request, id):
+    # Get product entry berdasarkan id
+    product = Product.objects.get(pk = id)
+
+    # Set product entry sebagai instance dari form
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
 
 def login_user(request):
    if request.method == 'POST':
