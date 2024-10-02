@@ -183,6 +183,124 @@ _Courtesy of_ [https://www.codepolitan.com/blog/css-grid-vs-flexbox-5b4336849183
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_ (bukan hanya sekadar mengikuti tutorial)!
 
+- Pertama, saya melakukan pengaturan untk _static files_ di `settings.py`
+
+```python
+  ...
+  MIDDLEWARE = [
+      'django.middleware.security.SecurityMiddleware',
+      'whitenoise.middleware.WhiteNoiseMiddleware', #Tambahkan tepat di bawah SecurityMiddleware
+      ...
+  ]
+  ...
+
+  ...
+  STATIC_URL = '/static/'
+  if DEBUG:
+      STATICFILES_DIRS = [
+          BASE_DIR / 'static' # merujuk ke /static root project pada mode development
+      ]
+  else:
+      STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
+  ...
+```
+
+- Selanjutnya, saya memilih tailwind sebagai _framework design_ saya dalam mendekorasi projek ini. Pengaplikasian tailwind dilakukan dengan cara menambah code di bawah ke `base.html`
+
+```html
+<head>
+  {% block meta %}
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock meta %}
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+</head>
+```
+
+- Buka file `views.py` lalu tambahkan fungsi `edit_product`, `delete_product`, dan _import_
+
+```python
+from django.shortcuts import .., reverse
+from django.http import .., HttpResponseRedirect
+
+def delete_product(request, id):
+    # Get product berdasarkan id
+    product = Product.objects.get(pk = id)
+    # Hapus product
+    product.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def edit_product(request, id):
+    # Get product entry berdasarkan id
+    product = Product.objects.get(pk = id)
+
+    # Set product entry sebagai instance dari form
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+```
+
+- Setelah membuat fungsi pada `views.py`, masukkan fungsi tersebut ke `urls.py`
+
+```python
+  from main.views import edit_product, delete_product
+
+  urlpatterns = [
+  ...
+  path('edit-product/<uuid:id>', edit_product, name='edit_product'),
+  path('delete/<uuid:id>', delete_product, name='delete_product'),
+  ...
+  ]
+```
+
+- Membuat navbar dengan membuat file `navbar.html` yang berada pada direktori `/templates` dan tautkan navbar tersebut di `create_product.html`, `edit_prodcut`, dan `main.html`.
+
+```html
+  {% extends 'base.html' %}
+  {% block content %}
+  {% include 'navbar.html' %}
+  ...
+  {% endblock content%}
+```
+
+- Membuat folder baru bernama `/static/css` lalu tambahkan file bernama `global.css`
+```css
+  .form-style form input, form textarea, form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #bcbcbc;
+    border-radius: 0.375rem;
+  }
+
+  .form-style form input:focus, form textarea:focus, form select:focus {
+      outline: none;
+      border-color: #674ea7;
+      box-shadow: 0 0 0 3px #674ea7;
+  }
+
+  @keyframes shine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+  }
+
+  .animate-shine {
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.3));
+      background-size: 200% 100%;
+      animation: shine 3s infinite;
+  }
+```
+
+- Setelah itu saya membuat dan styling file `login.html`, `register.html`, `card_info.html`, `create_product.html`, `edit_product.html`, dan `card_product.html`.
+
+
 - [x] Melakukan `add`-`commit`-`push` ke GitHub.
 
 # Assignment 4: Implementing Authentication, Sessions, and Cookies in Django
