@@ -6,7 +6,7 @@
 >
   <div class="max-w-md w-full space-y-8 form-style">
     <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-black">
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-white" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
         Buat akun
       </h2>
     </div>
@@ -18,7 +18,8 @@
         <div class="{% if not forloop.first %}mt-4{% endif %}">
           <label
             for="{{ field.id_for_label }}"
-            class="mb-2 font-semibold text-black"
+            class="mb-2 font-semibold text-white"
+            style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"
           >
             {{ field.label }}
           </label>
@@ -73,7 +74,7 @@
     {% endif %}
 
     <div class="text-center mt-4">
-      <p class="text-sm text-black">
+      <p class="text-sm text-white">
         Sudah punya akun?
         <a
           href="{% url 'main:login' %}"

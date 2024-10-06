@@ -7,8 +7,8 @@
 {% block content %}
 {% include 'navbar.html' %}
 <div class="bg-[#E3CAA5] flex flex-col min-h-screen">
-  <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
-    <h1 class="text-3xl font-serif font-bold text-center mb-8 text-white">Edit Order</h1>
+    <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+    <h1 class="text-3xl font-serif font-bold text-center mb-8 text-white" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">Edit Order</h1>
   
     <div class="bg-white rounded-lg p-6 form-style">
       <form method="POST" class="space-y-6">
@@ -29,11 +29,14 @@
                   {% endfor %}
               </div>
           {% endfor %}
-          <div class="flex justify-center mt-6">
-              <button type="submit" class="bg-[#C1CFA1] hover:bg-[#A5B68D] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#A5B68D] transition duration-300 ease-in-out w-full">
-                  Edit Order
-              </button>
-          </div>
+        <div class="flex flex-col justify-center mt-6 space-y-4">
+            <button type="submit" class="bg-[#C1CFA1] hover:bg-[#A5B68D] text-white font-semibold px-6 py-3 rounded-lg transition duration-300 ease-in-out w-full">
+                Edit Order
+            </button>
+            <a href="{% url 'main:show_main' %}" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-lg text-center transition duration-300 ease-in-out w-full">
+                Cancel
+            </a>
+        </div>
       </form>
   </div>
   </div>

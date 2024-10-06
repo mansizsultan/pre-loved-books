@@ -8,6 +8,43 @@ Pada tugas ini, saya membuat suatu projek e-commerce sederhana bernama "Second C
 
 - LINK: [Second Chapters <3](http://sultan-ibnu-prelovedbooks.pbp.cs.ui.ac.id/)
 
+# Assignment 6: JavaScript and AJAX
+
+## Checklist Tugas
+
+- [x] Mengubah tugas 5 yang telah dibuat sebelumnya menjadi menggunakan AJAX.
+
+  - [x] AJAX `GET`
+
+    - [x] Ubahlah kode `cards` data _mood_ agar dapat mendukung AJAX `GET`.
+
+    - [x] Lakukan pengambilan data _mood_ menggunakan AJAX `GET`. Pastikan bahwa data yang diambil hanyalah data milik pengguna yang _logged-in_.
+  
+  - [x] AJAX `POST`
+
+    - [x] Buatlah sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan _mood_.
+
+    - [x] Buatlah fungsi _view_ baru untuk menambahkan _mood_ baru ke dalam basis data.
+
+    - [x] Buatlah _path_ `/create-ajax/` yang mengarah ke fungsi _view_ yang baru kamu buat.
+
+    - [x] Hubungkan form yang telah kamu buat di dalam modal kamu ke _path_ `/create-ajax/`.
+
+- [x] Menjawab beberapa pertanyaan berikut pada `README.md` pada _root folder_ (silakan modifikasi `README.md` yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
+
+### Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+
+### Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+
+### Mengapa kita perlu menggunakan _decorator_ `csrf_exempt` pada _view_ yang akan digunakan untuk AJAX `POST`?
+
+### Pada tutorial PBP minggu ini, pembersihan data _input_ pengguna dilakukan di belakang (_backend_) juga. Mengapa hal tersebut tidak dilakukan di _frontend_ saja?
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_ (bukan hanya sekadar mengikuti tutorial)!
+
+- [x] Melakukan `add`-`commit`-`push` ke GitHub.
+
+
 # Assignment 5: Web Design using HTML, CSS and CSS Framework
 
 ## Checklist Tugas
