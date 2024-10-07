@@ -33,14 +33,239 @@ Pada tugas ini, saya membuat suatu projek e-commerce sederhana bernama "Second C
 - [x] Menjawab beberapa pertanyaan berikut pada `README.md` pada _root folder_ (silakan modifikasi `README.md` yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).
 
 ### Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+Dari apa yang sudah dijelaskan di tutorial minggu ini, saya merangkum beberapa poin tentang manfaat JavaScript dalam pengembangan aplikasi web
+
+* Multi-paradigma: JavaScript mendukung beberapa gaya pemrograman seperti berbasis objek, imperatif, dan fungsional, sehingga fleksibel untuk berbagai kebutuhan pengembangan.
+
+* Dinamis: JavaScript memungkinkan manipulasi halaman web secara dinamis, seperti mengubah konten dan tampilan halaman tanpa perlu memuat ulang halaman sepenuhnya.
+
+* Interaksi yang lebih baik dengan pengguna: JavaScript meningkatkan interaksi antara halaman web dan pengguna, misalnya melalui animasi, validasi form, atau respons instan terhadap input pengguna.
+
+* Pengubahan gaya dinamis: JavaScript bisa digunakan untuk mengubah styling dan CSS dari elemen HTML secara real-time, memberikan pengalaman visual yang lebih interaktif.
+
+* Client-side execution: Kode JavaScript umumnya dijalankan di sisi pengguna (client-side), sehingga tidak membebani performa server dan memberikan pengalaman pengguna yang lebih responsif.
+
+* Server-side capabilities: Dengan platform seperti Node.js, JavaScript juga dapat digunakan pada server-side, memberikan fleksibilitas tambahan untuk menjalankan JavaScript di berbagai lingkungan.
+
 
 ### Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+Fungsi `await` memungkinkan kita untuk menggunakana AJAX tanpa perlu menggunakan library eksternal, seperti jQuery. AJAX sendiri berfungsi untuk meminta data dari dari _web server_ menggunakan `XMLHttpRequest` dan menampilkannya dengan JavaScript dan HTML DOM. `fetch()` sendiri berfungsi sebagai pengganti yang lebih kuat dan fleksibel dari `XMLHttpRequest`. `await` dalam `fetch()` berfungsi menghentikan program untuk sementara sampai `fetch()` selesai dan hasilnya tersedia. Jika tidak menggunakan `await` dalam `fetch()`, `fetch()` akan langsung menampilkan _promise_ tanpa menunggu hasilnya tersedia. 
 
 ### Mengapa kita perlu menggunakan _decorator_ `csrf_exempt` pada _view_ yang akan digunakan untuk AJAX `POST`?
+Seperti yang dijelaskan di tutorial, _decorator_ `csrf_exempt` membuat Django tidak perlu mengecek keberadaan `csrf_token` pada `POST` _request_ yang dikirimkan ke `add_mood_entry_ajax`. 
+
+Ketika _decorator_ `csrf_exempt` ditambahkan ke fungsi di `view`, Django mengabaikan perlindungan `CSRF` untuk `view` tersebut. Jadi, _request_ `POST` ke fungsi ini tidak perlu menyertakan `csrf_token`. Ini berguna dalam situasi seperti AJAX _request_ dari aplikasi atau lingkungan yang dipercaya, di mana kita ingin mengabaikan mekanisme perlindungan `CSRF`. Namun, menggunakan `csrf_exempt` dapat meningkatkan risiko keamanan, sehingga perlu diterapkan dengan hati-hati. Pada tutorial ini, mungkin penggunaan _decorator_ `csrf_exempt` bertujuan untuk mengajarkan kita tentang kewaspadaan terhadap keamanan web yang kita buat.
+
 
 ### Pada tutorial PBP minggu ini, pembersihan data _input_ pengguna dilakukan di belakang (_backend_) juga. Mengapa hal tersebut tidak dilakukan di _frontend_ saja?
 
+* Frontend Bukan Tempat yang Aman untuk Validasi
+  Validasi di _frontend_ bisa dengan mudah dilewati karena kode di _browser_ berada di bawah kontrol _user_. _User_ dapat memodifikasi atau menghapus validasi ini menggunakan alat seperti developer tools atau Postman. Jika aplikasi hanya mengandalkan _frontend_, _server_ masih bisa menerima data yang tidak aman.
+
+* _Backend_ Adalah Pertahanan Terakhir
+  _Backend_ adalah tempat paling aman untuk memastikan data benar-benar aman. _Input_ dari _user_ harus selalu dianggap tidak terpercaya sampai divalidasi dan dibersihkan di _server_. Tanpa validasi di _backend_, data berbahaya seperti XSS bisa tersimpan di _database_. Contoh serangan XSS sudah jelas dilakukan di tutorial dan menunjukkan bahwa validasi di _frontend_ tidak dapat melindungi aplikasi dari serangan.
+
+* Melindungi API dan Akses Lain
+  Selain validasi _frontend_, pembersihan di _backend_ juga melindungi API dan layanan lain seperti `JSON` atau `XML` yang tidak diakses melalui browser. Library frontend seperti `DOMPurify` hanya bekerja untuk pembersihan data yang ditampilkan sebagai HTML. Seperti yang sudah dijelaskan di tutorial, jika ada yang menggunakan API `/json` atau `/xml` dari aplikasi kita, maka data yang didapatkan masih data yang "kotor". Oleh karena itu, _backend_ harus tetap memastikan bahwa semua _input_, termasuk yang diterima melalui API, sudah divalidasi dan dibersihkan untuk mencegah distribusi data yang tidak aman ke _user_ atau sistem lain.
+
 ### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_ (bukan hanya sekadar mengikuti tutorial)!
+
+* Mengubah fitur pengambilan data pada _product_ dapat dilakukan dengan AJAX `GET`
+  
+  - Pada `views.py` saya melakukan impor beberapa _decorator_ dan menambahkan fungsi baru untuk melakukan penambahan product dengan AJAX.
+    ```python
+    from django.views.decorators.csrf import csrf_exempt
+    from django.views.decorators.http import require_POS
+    ...
+
+    ...
+    @csrf_exempt
+    @require_POST
+    def create_product_ajax(request):
+        name = strip_tags(request.POST.get("name"))
+        author = strip_tags(request.POST.get("author"))
+        price = request.POST.get("price")
+        description = strip_tags(request.POST.get("description"))
+        user = request.user
+
+        new_product = Product(
+            name=name, author=author,
+            price=price,
+            description=description,
+            user=user
+        )
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    ...
+    ```
+
+  - Setelah itu di `urls.py`, saya menambahkan _routing_ untuk fungsi yang sebelumnya dibuat
+    ```python
+    from main.views import ..., add_mood_entry_ajax
+    ...
+
+    urlpatterns = [
+      ...
+      path('create-mood-entry-ajax', add_mood_entry_ajax, name='add_mood_entry_ajax'),
+    ]
+
+    ```
+
+  - Kita akan mendapatkan objek-objek _product_ dari endpoint `/json`. Buka `main.html` yang berada di `main/templates/` dan tambahkan code di bawah
+    ```html
+    ...
+    <div id="mood_entry_cards"></div>
+    ...
+
+    <script>
+      async function getProducts(){
+          return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+      }
+    </script>
+    ```
+    Selain menambahkan fungsi untuk mendapat objek _product_, saya menambahkan juga fungsi untuk _refresh_ data _products_ secara asinkronus 
+    bernama `refreshProducts` di dalam tag `<script>`
+
+  - Masih di file yang sama, saya mengimplementasikan modal sebagai form untuk menambahkan product dan mengimplementasi fungsi yang berguna agar modal berjalan dan menambahkan button.
+    ```html
+    ...
+    <div class="flex justify-center mb-6">
+      <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-[#C1CFA1] hover:bg-[#A5B68D] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+        Tambahkan buku
+      </button>
+    </div>
+    ...
+
+    <script>
+    ...
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    function showModal() {
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
+        modal.classList.remove('hidden'); 
+        setTimeout(() => {
+          modalContent.classList.remove('opacity-0', 'scale-95');
+          modalContent.classList.add('opacity-100', 'scale-100');
+        }, 50); 
+    }
+
+    function hideModal() {
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
+        modalContent.classList.remove('opacity-100', 'scale-100');
+        modalContent.classList.add('opacity-0', 'scale-95');
+
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 150); 
+    }
+    ...
+    </script>
+    ```
+
+* Mengubah fitur menampilkan data _product_ dengan AJAX `POST`
+  - Agar modal form dapat berfungsi dalam menambahkan data _product_, saya menambahkan fungsi baru seperti di bawah
+    ```html
+    <script>
+    function createProduct() {
+      fetch("{% url 'main:create_product_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#productForm')),
+      })
+      .then(response => refreshProducts(), hideModal())
+
+      document.getElementById("productForm").reset(); 
+      document.querySelector("[data-modal-toggle='crudModal']").click();
+
+      return false;
+    }
+    ...
+
+    document.getElementById("productForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      createProduct();
+    })
+    </script>
+
+    ```
+
+* Melindungi program dari XSS dan membersihkan data
+  - Buka `views.py` dan `forms.py`
+    tambahkan impor di kedua file 
+    ```python
+    from django.utils.html import strip_tags
+    ```
+    masih di `views.py`, saya memodifikasi fungsi `create_product_ajax()` untuk "membersihkan" data
+    ```python
+    @csrf_exempt
+    @require_POST
+    def create_product_ajax(request):
+        name = strip_tags(request.POST.get("name"))
+        author = strip_tags(request.POST.get("author"))
+        price = request.POST.get("price")
+        description = strip_tags(request.POST.get("description"))
+        user = request.user
+
+        new_product = Product(
+            name=name, author=author,
+            price=price,
+            description=description,
+            user=user
+        )
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    ```
+
+    di `forms.py`, saya menambahkan method untuk membersihkan data
+    ```python
+    ...
+      class ProductForm(ModelForm):
+      class Meta:
+          model = Product
+          fields = ["name", "author", "price", "description"]
+
+      def clean_name(self):
+          name = self.cleaned_data["name"]
+          return strip_tags(name)
+
+      def clean_author(self):
+          author = self.cleaned_data["author"]
+          return strip_tags(author)
+      
+      def clean_description(self):
+          description = self.cleaned_data["description"]
+          return strip_tags(description)
+    ```
+
+  - Buka `main.py` pada subdirektori `main/templates/` untuk mengimplemen DOMPurify agar program "membersihkan" data yang masuk.
+    ```html
+    {% block meta %}
+    ...
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+    ...
+    {% endblock meta %}
+    ...
+    <script>
+        ...
+        async function refreshProducts() {
+            ...
+            products.forEach((item) => {
+                const name = DOMPurify.sanitize(item.fields.name);
+                const author = DOMPurify.sanitize(item.fields.author);
+                const description = DOMPurify.sanitize(item.fields.description);
+                ...
+            });
+            ...
+        }
+        ...
+    </script>
+    ```
 
 - [x] Melakukan `add`-`commit`-`push` ke GitHub.
 
@@ -73,7 +298,7 @@ Dalam menampilkan suatu elemen HTML menggunakan CSS selecetor, browser menggunak
 
 Prioritas dari paling tinggi ke rendah
 
-- Inline Style
+* Inline Style
 
   Style ini merupakan atribut style yang ditulis langsung di elemen HTML.
 
@@ -81,7 +306,7 @@ Prioritas dari paling tinggi ke rendah
   <p style="color: blue;">Teks ini berwarna biru.</p>
   ```
 
-- ID Selector
+* ID Selector
 
   Style yang ditulis di dalam tag `<style>` pada dokumen HTML menggunakan `#id`.
 
