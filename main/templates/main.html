@@ -11,32 +11,25 @@
 {% include 'navbar.html' %}
 
 <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-[#E3CAA5] flex flex-col items-center justify-center">
-  <div class="p-2 mb-6 relative">
+  <div class="p-2 relative">
     <div id="animatedDiv" class="flex flex-col items-center justify-center opacity-0 transform translate-y-4 transition-all duration-500 ease-out">
-      <div id="animatedDiv" style="font-family: 'Cutive', serif;" class="text-xl text-center mb-4 text-[#603F26]">
+      <div id="animatedDiv" style="font-family: 'Dancing', serif;" class="text-3xl text-center mb-4 text-[#603F26]">
         Selamat datang, {{ user.username }} <3
       </div>
+      <img src="{% static 'image/bg-books2.jpg' %}" alt="Weekend" class="relative w-full rounded-xl">
+        <!-- <div class="bg-gray-200 bg-opacity-5 backdrop-blur-md px-3 py-2 rounded-2xl absolute bottom-1/2 right-1/2 translate-y-1/2 translate-x-1/2 shadow-lg">
+          <p class="text-sm text-[#603F26] text-sm" style="font-family: 'Playfair', serif;">Kami adalah destinasi utama bagi para pencinta buku yang mencari harta karun literatur dengan harga terjangkau. Di sini, setiap buku memiliki cerita yang kaya dan penuh kenangan. Toko kami berkomitmen untuk memberikan kesempatan kedua bagi buku-buku yang sudah melewati perjalanan hidupnya, agar tetap dapat dinikmati oleh pembaca baru.</p>
+        </div>
+      </img>
+       -->
       <!-- Kontainer untuk deskripsi -->
-      <div id="animatedDiv" class="flex justify-center items-center p-8 rounded-lg shadow-lg w-full h-54 bg-white mb-6">
-        <div class="w-1/2">
-          <p class="text-gray-600 text-justify">
-            {{description}}
-          </p>
-        </div>
-        <div class="w-1/2 flex justify-center items-center min-h-[24rem] p-6">
-          <img src="{% static 'image/books.png' %}" alt="Books" class="w-72 h-54 mb-4"/>
-        </div>
-      </div>      
-      
       <div>
         <!-- Kontainer untuk informasi login -->
-        <div class="px-3 mb-6 text-center items-center"> 
-          <div class="rounded-md items-center bg-[#603F26] py-2 px-4 w-fit inline-block"> 
-              <h1 class="text-white">Last Login: {{last_login}}</h1> 
-          </div>
+        <div class="rounded-md text-center items-center bg-[#603F26] py-2 px-4 w-fit inline-block mt-8"> 
+            <h1 class="text-white">Last Login: {{last_login}}</h1> 
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -251,4 +244,5 @@ document.getElementById("productForm").addEventListener("submit", (e) => {
   })
 </script>
 
+{% include 'footer.html' with student_name=student_name student_id=student_id student_class=student_class %}
 {% endblock content %}

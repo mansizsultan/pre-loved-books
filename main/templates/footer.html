@@ -1,0 +1,9 @@
+<div class="w-screen flex flex-col items-center justify-center space-x-2 py-3 bg-[#603F26] border-t-[#603F26] border-t text-white">
+	<div class="flex flex-row space-x-2 items-center">
+		<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copyright">
+			<circle cx="12" cy="12" r="10" />
+			<path d="M14.83 14.83a4 4 0 1 1 0-5.66" />
+		</svg>
+		<p class="text-sm">{{ student_name }} - {{ student_id }} - {{ student_class|default_if_none:"PBP - D"|default:"PBP - D" }}</p>
+	</div>
+</div>
