@@ -3,12 +3,11 @@
     padding: 0.5rem;
     border: 2px solid #bcbcbc;
     border-radius: 0.375rem;
-    background-color: #a4a74e;
 }
 .form-style form input:focus, form textarea:focus, form select:focus {
     outline: none;
-    border-color: #a7734e;
-    box-shadow: 0 0 0 3px #a7a04e;
+    border-color: #673e1f;
+    box-shadow: 0 0 0 3px #673e1f;
 }
 @keyframes shine {
     0% { background-position: -200% 0; }
