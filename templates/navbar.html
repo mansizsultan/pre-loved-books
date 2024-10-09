@@ -4,8 +4,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
+          <div class="flex justify-center mb-2">
+            <a href="{% url 'main:show_main' %}">
+              <img src="{% static 'image/logo1.png' %}" alt="Second Chapters Logo" class="h-16 w-16"/>
+            </a>
+          </div>
           <!-- <img src="{% static 'image/logo.png' %}" alt="Second Chapters Logo" class="h-16 w-1 h-1"/> -->
-          <a href="{% url 'main:show_main' %}" style="font-family: 'Cutive', serif;" class="text-lg text-center text-white">
+          <a href="{% url 'main:show_main' %}" style="font-family: 'Cutive', serif;" class="text-sm text-center text-[#FFFBE9]">
             Second Chapters <3
           </a>
         </div>
