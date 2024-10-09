@@ -52,7 +52,7 @@ Dari apa yang sudah dijelaskan di tutorial minggu ini, saya merangkum beberapa p
 Fungsi `await` memungkinkan kita untuk menggunakana AJAX tanpa perlu menggunakan library eksternal, seperti jQuery. AJAX sendiri berfungsi untuk meminta data dari dari _web server_ menggunakan `XMLHttpRequest` dan menampilkannya dengan JavaScript dan HTML DOM. `fetch()` sendiri berfungsi sebagai pengganti yang lebih kuat dan fleksibel dari `XMLHttpRequest`. `await` dalam `fetch()` berfungsi menghentikan program untuk sementara sampai `fetch()` selesai dan hasilnya tersedia. Jika tidak menggunakan `await` dalam `fetch()`, `fetch()` akan langsung menampilkan _promise_ tanpa menunggu hasilnya tersedia. 
 
 ### Mengapa kita perlu menggunakan _decorator_ `csrf_exempt` pada _view_ yang akan digunakan untuk AJAX `POST`?
-Seperti yang dijelaskan di tutorial, _decorator_ `csrf_exempt` membuat Django tidak perlu mengecek keberadaan `csrf_token` pada `POST` _request_ yang dikirimkan ke `add_mood_entry_ajax`. 
+Seperti yang dijelaskan di tutorial, _decorator_ `csrf_exempt` membuat Django tidak perlu mengecek keberadaan `csrf_token` pada `POST` _request_ yang dikirimkan ke `create_product_ajax`. 
 
 Ketika _decorator_ `csrf_exempt` ditambahkan ke fungsi di `view`, Django mengabaikan perlindungan `CSRF` untuk `view` tersebut. Jadi, _request_ `POST` ke fungsi ini tidak perlu menyertakan `csrf_token`. Ini berguna dalam situasi seperti AJAX _request_ dari aplikasi atau lingkungan yang dipercaya, di mana kita ingin mengabaikan mekanisme perlindungan `CSRF`. Namun, menggunakan `csrf_exempt` dapat meningkatkan risiko keamanan, sehingga perlu diterapkan dengan hati-hati. Pada tutorial ini, mungkin penggunaan _decorator_ `csrf_exempt` bertujuan untuk mengajarkan kita tentang kewaspadaan terhadap keamanan web yang kita buat.
 
@@ -102,12 +102,12 @@ Ketika _decorator_ `csrf_exempt` ditambahkan ke fungsi di `view`, Django mengaba
 
   - Setelah itu di `urls.py`, saya menambahkan _routing_ untuk fungsi yang sebelumnya dibuat
     ```python
-    from main.views import ..., add_mood_entry_ajax
+    from main.views import ..., creaet_product_ajax
     ...
 
     urlpatterns = [
       ...
-      path('create-mood-entry-ajax', add_mood_entry_ajax, name='add_mood_entry_ajax'),
+      path('create-product-ajax', create_product_ajax, name='create_product_ajax'),
     ]
 
     ```
@@ -115,7 +115,7 @@ Ketika _decorator_ `csrf_exempt` ditambahkan ke fungsi di `view`, Django mengaba
   - Kita akan mendapatkan objek-objek _product_ dari endpoint `/json`. Buka `main.html` yang berada di `main/templates/` dan tambahkan code di bawah
     ```html
     ...
-    <div id="mood_entry_cards"></div>
+    <div id="product_cards"></div>
     ...
 
     <script>
