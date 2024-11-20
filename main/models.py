@@ -11,7 +11,7 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=15)
     description = models.TextField()
     date = models.DateField(auto_now_add=True)
-    
+
     @property
     def is_book_expensive(self):
         return self.price > 50000
